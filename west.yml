@@ -22,13 +22,19 @@ manifest:
     - name: upstream
       url-base: https://github.com/ChrisLusetic/spark.git
 
-  projects:
-    - name: matrix
-      path: ./project_name/lib/matrix
-      url: https://github.com/ChrisLusetic/12x12_matrix_dummy.git
+
+
+
+
+## For projects
+
+  # projects:
+  #   - name: matrix
+  #     path: ./project_name/lib/matrix
+  #     url: https://github.com/ChrisLusetic/12x12_matrix_dummy.git
 
 
   self:
     path: spark
-    west-commands: scripts/west-commands.yml
+    # west-commands: scripts/west-commands.yml
    
