@@ -45,10 +45,10 @@ if (args.cmd == "generate"):
     dst_path = tmp_path +  workspace_name + args.n
     os.mkdir(dst_path)
 
-    # # Copy west
+    # Copy west
     shutil.copy(west_template_path, dst_path)
 
-    # Edit west
+    # Edit west project name
     with open(os.path.join(dst_path, west_name), 'r') as file :
         filedata = file.read()
     
@@ -57,6 +57,9 @@ if (args.cmd == "generate"):
     with open(os.path.join(dst_path, west_name), 'w') as file:
         file.write(filedata)
     
+    # Append west modules
+
+    # Copy west file to project
     shutil.copytree(dst_path, os.path.join(args.p, workspace_name, args.n), symlinks=False, ignore=None, ignore_dangling_symlinks=False)
 
     shutil.rmtree(tmp_path)

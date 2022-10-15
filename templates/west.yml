@@ -32,6 +32,11 @@ manifest:
       path: ./<name>/lib/matrix
       url: https://github.com/ChrisLusetic/12x12_matrix_dummy.git
 
+    - name: spark
+      path: ./spark
+      url: https://github.com/ChrisLusetic/spark.git      
+
+
   self:
     path: <name>
    
