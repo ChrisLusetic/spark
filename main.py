@@ -9,7 +9,7 @@ west_template_path = "templates/west.yml"
 west_name = "west.yml"
 
 workspace_sufix = "_workspace/"
-project_name_token = "<project_name>"
+project_name_token = "<name>"
 
 
 parser = argparse.ArgumentParser()
@@ -25,7 +25,7 @@ args = parser.parse_args()
 # Commands
 if (args.cmd == "generate"):
     if not args.p or not args.n:
-        print("Missing path and name arguments")
+        print("Missing path and/or name arguments")
         sys.exit()
 
     print("Generating new project")
@@ -62,12 +62,22 @@ if (args.cmd == "generate"):
     shutil.rmtree(tmp_path)
 
 if (args.cmd == "init"):
-    os.system('west init -l ' + args.p)
-    print('west init -l ' + args.p)
+    os.system('west init -l ' + str(args.p))
+    print('west init -l ' + str(args.p))
 
     
 if (args.cmd == "update"):
     os.system('west update')
 
-# else:
-#     os.system('west update')
+if (args.cmd == "test"):
+    print (os.path.abspath(__file__))
+
+if (args.cmd == "generate_vscode"):
+
+    if not args.p or not args.n:
+        print("Missing path and/or name arguments")
+        sys.exit()
+
+    workspace_name = args.n + workspace_sufix
+
+    shutil.copytree(os.path.join("templates/.vscode"), os.path.join(args.p, workspace_name, args.n, ".vscode"), symlinks=False, ignore=None, ignore_dangling_symlinks=False)
