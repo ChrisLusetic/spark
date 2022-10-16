@@ -20,17 +20,17 @@ manifest:
 
   # remotes:
   #   - name: upstream
-  #     url-base: https://github.com/ChrisLusetic/spark.git
+  #     url-base: https://github.com/ChrisLusetic/
 
   projects:
     - name: matrix
       path: ./<name>/lib/matrix
       url: https://github.com/ChrisLusetic/12x12_matrix_dummy.git
 
-    - name: spark
-      path: ./spark
-      revision: main
-      url: https://github.com/ChrisLusetic/spark.git
+    # - name: spark
+    #   path: ./spark
+    #   url: https://github.com/ChrisLusetic/spark.git
+
 
   self:
     path: <name>

@@ -84,3 +84,7 @@ if (args.cmd == "generate_vscode"):
     workspace_name = args.n + workspace_sufix
 
     shutil.copytree(os.path.join("templates/.vscode"), os.path.join(args.p, workspace_name, args.n, ".vscode"), symlinks=False, ignore=None, ignore_dangling_symlinks=False)
+
+if (args.cmd == "set_global_vscode"):
+    print("Setting global vscode settings")
+    
