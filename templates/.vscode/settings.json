@@ -1,5 +1,0 @@
-{
-    "doxdocgen.generic.customTags": [ "@author {author} "],
-    // The template of the brief Doxygen line that is generated. If empty it won't get generated at all.
-    "doxdocgen.generic.briefTemplate": "@brief {text}",
-}

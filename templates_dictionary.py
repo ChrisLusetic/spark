@@ -1,0 +1,2 @@
+class TemplatesDictionary:
+    templateGroup[]

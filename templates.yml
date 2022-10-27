@@ -1,0 +1,25 @@
+snippets:
+  multiple_choice: True
+  list:
+   - name: snippet-zephyr
+     src_path: templates/.vscode/snippets_zephyr.code-snippets
+     dst_path: ./.vscode/snippets_zephyr.code-snippets
+     import: False
+
+   - name: snippet-freeRTOS
+     src_path: templates/.vscode/snippets_freeRTOS.code-snippets
+     dst_path: ./.vscode/snippets_freeRTOS.code-snippets
+     import: True
+
+clang:
+  multiple_choice: False
+  list:
+   - name: clang-zephyr
+     src_path: templates/clang/.clang_zephyr
+     dst_path: .clang-format
+     import: False
+
+   - name: clang-freeRTOS
+     src_path: templates/clang/.clang_freeRTOS
+     dst_path: .clang-format
+     import: True

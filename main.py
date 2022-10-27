@@ -3,6 +3,17 @@ import argparse
 import pathlib
 import shutil
 import sys
+
+
+import yaml
+from yaml.loader import SafeLoader
+
+class templateObj:
+    def __init__(self, src_path, dst_path):
+        self.src_path = src_path
+        self.dst_path = dst_path
+
+
 # Defines
 tmp_path = "tmp/"
 west_template_path = "templates/west.yml"
@@ -11,10 +22,7 @@ west_name = "west.yml"
 workspace_sufix = "_workspace/"
 project_name_token = "<name>"
 
-
 parser = argparse.ArgumentParser()
-
-# os.system('west -v')
 
 parser.add_argument('cmd', type=str)
 parser.add_argument('-p', type=str, required = False)
@@ -64,27 +72,39 @@ if (args.cmd == "generate"):
 
     shutil.rmtree(tmp_path)
 
-if (args.cmd == "init"):
-    os.system('west init -l ' + str(args.p))
-    print('west init -l ' + str(args.p))
-
-    
-if (args.cmd == "update"):
-    os.system('west update')
-
-if (args.cmd == "test"):
+if (args.cmd == "test2"):
     print (os.path.abspath(__file__))
 
-if (args.cmd == "generate_vscode"):
+if (args.cmd == "generate_templates"):
 
-    if not args.p or not args.n:
-        print("Missing path and/or name arguments")
-        sys.exit()
+    project_path = "./TEST/"
+    list_of_jobs = []
 
-    workspace_name = args.n + workspace_sufix
-
-    shutil.copytree(os.path.join("templates/.vscode"), os.path.join(args.p, workspace_name, args.n, ".vscode"), symlinks=False, ignore=None, ignore_dangling_symlinks=False)
-
-if (args.cmd == "set_global_vscode"):
-    print("Setting global vscode settings")
+    with open('templates.yml') as f:
+        data = yaml.load(f, Loader=SafeLoader)
     
+    for template in data:
+        
+        list = data[template]["list"]
+        for item in list:
+            if(item["import"] == True):
+                list_of_jobs.append(templateObj(item["src_path"], item["dst_path"]))
+
+
+    # Generate templates
+    for i in list_of_jobs:
+        print("Copying: From: ",i.src_path, " To: ", os.path.join(project_path, i.dst_path))
+        shutil.copy(i.src_path, os.path.join(project_path, i.dst_path))
+
+
+
+# TODO:
+# add wizard
+# check if file already exists, if yes, override
+# check if folder exists, if not create
+# change path to be current, or user can specify
+# add option to just add specifics stuff: spark generate_specific clang-zephyr
+# sync snipets
+# sync extensions
+# add cronjob to autofetch and sync
+# add all other templates
