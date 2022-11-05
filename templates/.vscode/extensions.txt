@@ -1,0 +1,7 @@
+eamodio.gitlens
+marus25.cortex-debug
+mhutchie.git-graph
+ms-python.python
+ms-vscode.cmake-tools
+ms-vscode.cpptools
+shd101wyy.markdown-preview-enhanced

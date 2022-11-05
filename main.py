@@ -1,12 +1,14 @@
 import os
 import argparse
-import pathlib
 import shutil
 import sys
-
+import git 
 
 import yaml
 from yaml.loader import SafeLoader
+
+
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 class templateObj:
     def __init__(self, src_path, dst_path):
@@ -73,7 +75,7 @@ if (args.cmd == "generate"):
     shutil.rmtree(tmp_path)
 
 if (args.cmd == "test2"):
-    print (os.path.abspath(__file__))
+    print ("\033[92m TEST")
 
 if (args.cmd == "generate_templates"):
 
@@ -97,8 +99,28 @@ if (args.cmd == "generate_templates"):
         shutil.copy(i.src_path, os.path.join(project_path, i.dst_path))
 
 if (args.cmd == "sync_vscode"):
-    
+    # Pull latest git 
+    g = git.cmd.Git(PROJECT_ROOT)
+    # print(g.pull())
 
+    # Check if running on Windows or Linux
+    if(os.name == "posix"):
+        VSCODE_SNIPETS_PATH = "~/.config/Code/User" # Linux
+    elif (os.name == "nt"):
+        VSCODE_SNIPETS_PATH = r'C:\Users\Chris\AppData\Roaming\Code\User\snippets' # Windows
+    else:
+        print("Unknonw operating system")
+
+    # Copy snippets
+    shutil.copy("templates/.vscode/BL_global.code-snippets", os.path.join(VSCODE_SNIPETS_PATH, "bl_global.code_snippets"))
+    
+    # Install vscode extensions
+    with open('templates/.vscode/extensions.txt') as f:
+        while True:
+            line = f.readline()
+            if not line:
+                break
+            os.system(f"code --install-extension {line.strip()} --force") # --force to install newer version
 
 # TODO:
 # add wizard
@@ -106,7 +128,7 @@ if (args.cmd == "sync_vscode"):
 # check if folder exists, if not create
 # change path to be current, or user can specify
 # add option to just add specifics stuff: spark generate_specific clang-zephyr
-# sync snipets
-# sync extensions
+
 # add cronjob to autofetch and sync
 # add all other templates
+# enable/disable autosync
