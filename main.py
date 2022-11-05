@@ -96,6 +96,8 @@ if (args.cmd == "generate_templates"):
         print("Copying: From: ",i.src_path, " To: ", os.path.join(project_path, i.dst_path))
         shutil.copy(i.src_path, os.path.join(project_path, i.dst_path))
 
+if (args.cmd == "sync_vscode"):
+    
 
 
 # TODO:
