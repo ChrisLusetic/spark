@@ -8,7 +8,7 @@ import yaml
 from yaml.loader import SafeLoader
 
 
-PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+CWD = os.getcwd()
 
 class templateObj:
     def __init__(self, src_path, dst_path):
@@ -74,8 +74,13 @@ if (args.cmd == "generate"):
 
     shutil.rmtree(tmp_path)
 
-if (args.cmd == "test2"):
-    print ("\033[92m TEST")
+# Usefull coomands `os.walk`
+
+if (args.cmd == "test"):
+
+    print("CWD: ",  CWD)
+    print(args.p)
+
 
 if (args.cmd == "generate_templates"):
 
@@ -85,6 +90,7 @@ if (args.cmd == "generate_templates"):
     with open('templates.yml') as f:
         data = yaml.load(f, Loader=SafeLoader)
     
+    # Go through templates
     for template in data:
         
         list = data[template]["list"]
@@ -98,29 +104,7 @@ if (args.cmd == "generate_templates"):
         print("Copying: From: ",i.src_path, " To: ", os.path.join(project_path, i.dst_path))
         shutil.copy(i.src_path, os.path.join(project_path, i.dst_path))
 
-if (args.cmd == "sync_vscode"):
-    # Pull latest git 
-    g = git.cmd.Git(PROJECT_ROOT)
-    # print(g.pull())
 
-    # Check if running on Windows or Linux
-    if(os.name == "posix"):
-        VSCODE_SNIPETS_PATH = "~/.config/Code/User" # Linux
-    elif (os.name == "nt"):
-        VSCODE_SNIPETS_PATH = r'C:\Users\Chris\AppData\Roaming\Code\User\snippets' # Windows
-    else:
-        print("Unknonw operating system")
-
-    # Copy snippets
-    shutil.copy("templates/.vscode/BL_global.code-snippets", os.path.join(VSCODE_SNIPETS_PATH, "bl_global.code_snippets"))
-    
-    # Install vscode extensions
-    with open('templates/.vscode/extensions.txt') as f:
-        while True:
-            line = f.readline()
-            if not line:
-                break
-            os.system(f"code --install-extension {line.strip()} --force") # --force to install newer version
 
 # TODO:
 # add wizard

@@ -1,0 +1,7 @@
+# Keep the help strings in sync with the values in the .py files!
+west-commands:
+  - file: scripts/west_commands/vscode_sync.py
+    commands:
+      - name: vscode_sync
+        class: Vscode_sync
+        help: sync vscode snipets and extensions
