@@ -3,12 +3,12 @@ snippets:
   list:
    - name: snippet-zephyr
      src_path: templates/.vscode/snippets_zephyr.code-snippets
-     dst_path: ./.vscode/snippets_zephyr.code-snippets
+     dst_path: .vscode/snippets_zephyr.code-snippets
      import: False
 
    - name: snippet-freeRTOS
      src_path: templates/.vscode/snippets_freeRTOS.code-snippets
-     dst_path: ./.vscode/snippets_freeRTOS.code-snippets
+     dst_path: .vscode/snippets_freeRTOS.code-snippets
      import: True
 
 clang:
