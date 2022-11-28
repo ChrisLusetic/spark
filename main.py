@@ -1,5 +1,6 @@
 import os
 import argparse
+from pathlib import Path
 import shutil
 import sys
 import git 
@@ -20,7 +21,7 @@ class templateObj:
 parser = argparse.ArgumentParser()
 
 parser.add_argument('cmd', type=str)
-parser.add_argument('-p', type=str, required = False)
+parser.add_argument('-p', type=Path, required = False)
 parser.add_argument('-n', type=str, required = False)
 
 args = parser.parse_args()
@@ -58,61 +59,95 @@ if (args.cmd == "test"):
 
 #     # my_file.close()
 if (args.cmd == "init"):
+    
     name = "templates.yml"
-    project_path = "./TEST/"
+
+    if(args.p):
+        project_path = os.path.abspath(args.p)
+
+    else:
+        print("Using default path")
+        project_path = CWD
+    
+
     src = os.path.join(CWD, name)
     dst = os.path.join(project_path, name)
-    
-    print(src)
-    print(dst)
+   
+    if not os.path.exists(project_path):
+        os.makedirs(project_path)
 
+    print("Copying from:", src," to:", dst)
     shutil.copy(src,dst)
+
+if (args.cmd == "t"):
+    name = "templates.yml"
+
+    if(args.p):
+        project_path = os.path.abspath(args.p)
+
+    else:
+        print("Using default path")
+        project_path = CWD
+    
+    src = os.path.join(CWD, name)
+    dst = os.path.join(project_path, name)
+
+    with open(src) as f:
+        yml_data = yaml.load(f, Loader=SafeLoader)
+        print(yml_data)
+
+
 
 
 if (args.cmd == "generate_templates"):
 
-    project_path = "./TEST/"
     list_of_jobs = []
+    name = "templates.yml"
 
-    # Create test folder if it doesnt exist
-    if not os.path.exists(project_path):
-        os.makedirs(project_path)
-
-    with open(TEMPLATES_YML_PATH) as f:
-        yml_data = yaml.load(f, Loader=SafeLoader)
-    
-    # Go through templates
-    for template_item in yml_data:
+    if(args.p):
+        project_path = os.path.abspath(args.p)
         
-        list_of_items = yml_data[template_item]["list"]
-        for item in list_of_items:
+    else:
+        print("Using default path")
+        project_path = CWD
+    
+    src = os.path.join(project_path, name)
+    print("PATH is: ", src)
 
-            # Add to list of jobs if marked "import = true"
-            if(item["import"] == True):
-                list_of_jobs.append(templateObj(item["src_path"], item["dst_path"]))
+    if not os.path.exists(src):
+        print("No templates.yml at the location. Did you run blizard init?")
+        
+    else:
+        with open(src) as f:
+            yml_data = yaml.load(f, Loader=SafeLoader)
+            print(yml_data)
+        # Go through templates
+        for template_item in yml_data:
+            
+            list_of_items = yml_data[template_item]["list"]
+            for item in list_of_items:
 
+                # Add to list of jobs if marked "import = true"
+                if(item["import"] == True):
+                    list_of_jobs.append(templateObj(item["src_path"], item["dst_path"]))
 
-    # Generate templates from list
-    for i in list_of_jobs:
-        destination = os.path.join(project_path, i.dst_path)
-        print("Copying: From: ",i.src_path, " To: ", destination)
+        # Generate templates from list
+        for i in list_of_jobs:
+            destination = os.path.join(project_path, i.dst_path)
+            print("Copying: From: ",i.src_path, " To: ", destination)
 
-        # # Create folders of they dont exist (.vscode, tools, scripts)
-        head = os.path.split(destination)
-        if not os.path.exists(head[0]):
-            os.makedirs(head[0])
+            # # Create folders of they dont exist (.vscode, tools, scripts)
+            head = os.path.split(destination)
+            if not os.path.exists(head[0]):
+                os.makedirs(head[0])
 
-        # Copy templates in folders
-        shutil.copy(i.src_path, destination)
+            # Copy templates in folders
+            shutil.copy(i.src_path, destination)
 
 
 
 # TODO:
-# add wizard
-# check if file already exists, if yes, override
-# check if folder exists, if not create
-# change path to be current, or user can specify
-# add option to just add specifics stuff: spark generate_specific clang-zephyr
+
 
 # add cronjob to autofetch and sync
 # add all other templates
