@@ -144,11 +144,7 @@ if (args.cmd == "generate_templates"):
             # Copy templates in folders
             shutil.copy(i.src_path, destination)
 
-
-
 # TODO:
-
-
 # add cronjob to autofetch and sync
 # add all other templates
 # enable/disable autosync
