@@ -17,14 +17,6 @@ class templateObj:
         self.dst_path = dst_path
 
 
-# Defines
-tmp_path = "tmp/"
-west_template_path = "templates/west.yml"
-west_name = "west.yml"
-
-workspace_sufix = "_workspace/"
-project_name_token = "<name>"
-
 parser = argparse.ArgumentParser()
 
 parser.add_argument('cmd', type=str)
@@ -33,48 +25,6 @@ parser.add_argument('-n', type=str, required = False)
 
 args = parser.parse_args()
 
-# Commands
-if (args.cmd == "generate"):
-    if not args.p or not args.n:
-        print("Missing path and/or name arguments")
-        sys.exit()
-
-    print("Generating new project")
-
-    # Create temp folder
-
-    if os.path.exists(tmp_path):
-        shutil.rmtree(tmp_path)
-
-    os.mkdir(tmp_path)
-
-    # Create workspace folder
-    workspace_name = args.n + workspace_sufix
-    os.mkdir(tmp_path+ workspace_name)
-
-    # Create project folder
-    dst_path = tmp_path +  workspace_name + args.n
-    os.mkdir(dst_path)
-
-    # Copy west
-    shutil.copy(west_template_path, dst_path)
-
-    # Edit west project name
-    with open(os.path.join(dst_path, west_name), 'r') as file :
-        filedata = file.read()
-    
-    filedata = filedata.replace(project_name_token, args.n)
-
-    with open(os.path.join(dst_path, west_name), 'w') as file:
-        file.write(filedata)
-    
-    # Append west modules
-
-    # Copy west file to project
-    shutil.copytree(dst_path, os.path.join(args.p, workspace_name, args.n), symlinks=False, ignore=None, ignore_dangling_symlinks=False)
-
-    shutil.rmtree(tmp_path)
-
 # Usefull coomands `os.walk`
 
 if (args.cmd == "test"):
@@ -82,7 +32,41 @@ if (args.cmd == "test"):
     print("CWD: ",  CWD)
     print(args.p)
 
-# Autoserach something like zehyr west. IE, "Not a blizard directory. initiazlie it it?
+# Auto-search something like zehyr west. IE, "Not a blizard directory. initiazlie it it?
+# Run blanalyzer
+
+# if (args.cmd == "init"):
+
+#     # project_path = "./TEST/.blizard/project_info.blzd"
+#     # if not os.path.exists(os.path.dirname(project_path)):
+#     #     os.makedirs(os.path.dirname(project_path))
+
+#     # my_file = open(project_path, 'w', encoding='utf-8')
+
+#     # print("# Generating project.blzd")
+#     # my_file.write("# Bytelab project init list of options\n\n")
+
+#     # with open(TEMPLATES_YML_PATH) as f:
+#     #     yml_data = yaml.load(f, Loader=SafeLoader)
+
+#     #     # Go through templates
+#     #     for template_item in yml_data:
+#     #         my_file.writelines(["\n", template_item, ":\n"])
+#     #         list_of_items = yml_data[template_item]["list"]
+#     #         for item in list_of_items:
+#     #             my_file.writelines(["    ",item["name"], "\n"])
+
+#     # my_file.close()
+if (args.cmd == "init"):
+    name = "templates.yml"
+    project_path = "./TEST/"
+    src = os.path.join(CWD, name)
+    dst = os.path.join(project_path, name)
+    
+    print(src)
+    print(dst)
+
+    shutil.copy(src,dst)
 
 
 if (args.cmd == "generate_templates"):
@@ -108,7 +92,7 @@ if (args.cmd == "generate_templates"):
                 list_of_jobs.append(templateObj(item["src_path"], item["dst_path"]))
 
 
-    # Generate templates
+    # Generate templates from list
     for i in list_of_jobs:
         destination = os.path.join(project_path, i.dst_path)
         print("Copying: From: ",i.src_path, " To: ", destination)
