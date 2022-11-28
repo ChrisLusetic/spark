@@ -5,3 +5,12 @@ west-commands:
       - name: vscode_sync
         class: Vscode_sync
         help: sync vscode snipets and extensions
+
+  - file: scripts/west_commands/template_generator.py
+    commands:
+      - name: project-init
+        class: TemplatesInit
+        help: Initializes project templates 
+      - name: generate
+        class: TemplatesGenerate
+        help: Generates templates
