@@ -2,12 +2,11 @@ snippets:
   multiple_choice: True
   list:
    - name: snippet-zephyr
-     src_path: templates/.vscode/snippets_zephyr.code-snippets
+     src_path: templates/vscode/snippets_zephyr.code-snippets
      dst_path: .vscode/snippets_zephyr.code-snippets
      import: False
-
    - name: snippet-freeRTOS
-     src_path: templates/.vscode/snippets_freeRTOS.code-snippets
+     src_path: templates/vscode/snippets_freeRTOS.code-snippets
      dst_path: .vscode/snippets_freeRTOS.code-snippets
      import: True
 
@@ -18,8 +17,23 @@ clang:
      src_path: templates/clang/.clang_zephyr
      dst_path: .clang-format
      import: False
-
    - name: clang-freeRTOS
      src_path: templates/clang/.clang_freeRTOS
      dst_path: .clang-format
      import: True
+
+blanalyzer:
+  multiple_choice: False
+  list:
+   - name: blanalyzer_run_script
+     src_path: templates/blanalyzer/blanalyzer.sh
+     dst_path: blanalyzer.sh
+     import: True
+   - name: blanalyzer_cmake_gcc
+     src_path: templates/blanalyzer/.blanalyzer_cmake_gcc.json
+     dst_path: .blanalyzer.json
+     import: True
+   - name: blanalyzer_esp32
+     src_path: templates/blanalyzer/.blanalyzer_esp32.json
+     dst_path: .blanalyzer.json
+     import: False          

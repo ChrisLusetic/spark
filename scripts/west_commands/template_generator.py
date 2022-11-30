@@ -39,7 +39,7 @@ class TemplatesInit(WestCommand):
         return parser         
 
     def do_run(self, args, unknown_args):
-        log.inf("Testing 1...", colorize=True)
+        log.inf("Initializing project", colorize=True)
 
         name = "templates.yml"
 
@@ -80,7 +80,7 @@ class TemplatesGenerate(WestCommand):
         return parser         
 
     def do_run(self, args, unknown_args):
-        log.inf("Testing 2...", colorize=True)
+        log.inf("Generating templates...", colorize=True)
         list_of_jobs = []
         name = "templates.yml"
 
@@ -123,3 +123,28 @@ class TemplatesGenerate(WestCommand):
 
                 # Copy templates in folders
                 shutil.copy(i.src_path, destination)
+
+
+class Blanalyzer(WestCommand):
+
+    def __init__(self):
+        super().__init__(
+            'blanalyzer',
+            'Blanalzyer commands',
+            dedent('''
+            Blanalyzer project
+            '''))
+
+    def do_add_parser(self, parser_adder):
+        parser = parser_adder.add_parser(self.name,
+                                         help=self.help,
+                                         description=self.description)
+
+        parser.add_argument('cmd', type=str)
+        return parser         
+
+    def do_run(self, args, unknown_args):
+        if(args.cmd == "run"):
+            log.inf("Running blanalyzer", colorize=True)
+            os.system('sh blanalyzer.sh')
+        

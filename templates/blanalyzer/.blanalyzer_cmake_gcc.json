@@ -1,0 +1,99 @@
+{
+    "sections":
+    {
+        "ram":{
+            "RAM1":[".data", ".ram1_bank", "._user_heap_stack"],
+            "RAM2":[".bss"]
+        },
+
+        "rom":{
+            "ROM":[".text", ".rodata", ".data", ".isr_vector", ".preinit_array", ".init_array", ".fini_array"]
+        }
+    },
+
+    "docker":
+    {
+        "build_image":"git.byte-lab.com:4567/internal/devops/docker/gcc-arm-none-eabi-images/gcc-arm-none-eabi:9.2.1",
+        "resource": [],
+        "use_docker": true
+    },
+
+    "pre_build_script": 
+    {
+        "path" : "/",
+        "script" : "cmake",
+        "arg" : ["-H.", "-Bblanalyzer_build"]
+    },
+
+    "build_script": 
+    {
+        "path" : "/",
+        "script" : "cmake",
+        "target": "stm32wl_debug",
+        "arg" : ["--build", "blanalyzer_build", "--target", "stm32wl_debug", "--", "-j8"]
+    },
+    
+    "clean_script":
+    {
+        "path" : "/",
+        "script" : "cmake",
+        "arg" : ["--build", "blanalyzer_build", "--target", "clean", "--"]
+    },
+
+    "project": 
+    {
+        "root":".",
+        "build_dir": "blanalyzer_build/CMakeFiles",
+        "elf_loc": "build/stm32wl_debug/stm32wl_debug.elf",
+        "report_dir":"report"
+    },
+
+    "footprint":
+    {
+        "size_script":"arm-none-eabi-size"
+    },
+
+    "duplication":
+    {
+        "tokens":25,
+        "ignore_block":"/* CPD Ignore start */|/* CPD Ignore end*/"
+    },
+
+    "filters": 
+    {
+        "file_filter":[
+            "tools/",
+            "test/",
+            "build/",
+            "lib/blibAT/",
+            "lib/blibDelay/",
+            "lib/blibGPIO/",
+            "lib/blibI2C/",
+            "lib/blibmodem/",
+            "lib/blibmutex/",
+            "lib/blibOSWrap/",
+            "lib/blibUART/",
+            "lib/Cipher/",
+            "lib/CMSIS/",
+            "lib/FreeRTOS/",
+            "lib/loraWAN/",
+            "lib/opensslMD5/",
+            "lib/RTT/",
+            "lib/STM32WBxx_HAL_Driver/",
+            "lib/STM32WLxx_HAL_Driver/",
+            "lib/SystemView/",
+            "stm32wbxx_hal_msp.c",
+            "stm32wbxx_it.c",
+            "system_stm32wbxx.c"
+        ],
+
+        "coding_standard":[
+            "[BARR-C:2018 Rule 1.8b]"
+        ],
+        
+        "static_code":[
+            537,
+            534
+        ]
+    }
+}

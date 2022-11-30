@@ -14,3 +14,6 @@ west-commands:
       - name: generate
         class: TemplatesGenerate
         help: Generates templates
+      - name: blanalyzer
+        class: Blanalyzer
+        help: Blanalyzer commands
